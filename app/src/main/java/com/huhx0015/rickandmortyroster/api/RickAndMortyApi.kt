@@ -1,0 +1,13 @@
+package com.huhx0015.rickandmortyroster.api
+
+import retrofit2.http.GET
+
+/**
+ * Rick and Morty API
+ * Source: https://rickandmortyapi.com/api/
+ */
+
+interface RickAndMortyApi {
+    @GET("api/character")
+    suspend fun getCharacters(): CharacterResponse
+}

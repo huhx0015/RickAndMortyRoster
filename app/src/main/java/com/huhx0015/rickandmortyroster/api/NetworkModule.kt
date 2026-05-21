@@ -13,16 +13,18 @@ import retrofit2.Retrofit
 @InstallIn(SingletonComponent::class)
 object NetworkModule {
 
+    private const val BASE_URL = "https://rickandmortyapi.com/"
+
     @Provides
     fun provideRetrofit(): Retrofit {
         val networkJson = Json { ignoreUnknownKeys = true }
-        return Retrofit.Builder().baseUrl("https://rickandmortyapi.com/")
-            .addConverterFactory(networkJson.asConverterFactory("application/json".toMediaType())) // should add it at last
+        return Retrofit.Builder().baseUrl(BASE_URL)
+            .addConverterFactory(networkJson.asConverterFactory("application/json".toMediaType()))
             .build()
     }
 
     @Provides
-    fun provideApi(retrofit: Retrofit): Huhx0015Api {
-        return retrofit.create(Huhx0015Api::class.java)
+    fun provideApi(retrofit: Retrofit): RickAndMortyApi {
+        return retrofit.create(RickAndMortyApi::class.java)
     }
 }

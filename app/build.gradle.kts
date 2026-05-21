@@ -9,12 +9,12 @@ plugins {
 
 android {
     namespace = "com.huhx0015.rickandmortyroster"
-    compileSdk = 35
+    compileSdk = 37
 
     defaultConfig {
         applicationId = "com.huhx0015.rickandmortyroster"
         minSdk = 24
-        targetSdk = 35
+        targetSdk = 37
         versionCode = 1
         versionName = "1.0"
 
@@ -62,24 +62,23 @@ dependencies {
     implementation(libs.androidx.fragment.compose)
     implementation(libs.androidx.navigation.compose)
 
-    // Coroutines
-    implementation(libs.kotlinx.coroutines.android)
-
     // Android Lifecycle
     implementation(libs.androidx.lifecycle.viewmodel.ktx)
     implementation(libs.androidx.lifecycle.viewmodel.compose)
     implementation(libs.androidx.lifecycle.livedata.ktx)
-
     implementation(libs.kotlinx.serialization.json)
     implementation(libs.retrofit2.kotlinx.serialization.converter)
 
-    // Hilt Android
+    // Kotlin Coroutines
+    implementation(libs.kotlinx.coroutines.android)
+
+    // Dependency Injection
     implementation(libs.hilt.android)
     kapt(libs.hilt.compiler)
     implementation(libs.androidx.hilt.navigation.fragment)
     implementation(libs.hilt.navigation.compose)
 
-    // Square Retrofit/OKHttp
+    // Network
     implementation(libs.retrofit)
     implementation(libs.moshi)
     implementation(libs.okhttp)
@@ -87,10 +86,9 @@ dependencies {
     implementation(libs.okhttp.http.logging.interceptor)
     implementation(libs.retrofit.converter.moshi)
 
-    // Coil
+    // Images
     implementation(libs.coil.compose)
     implementation(libs.coil.network.okhttp)
-
 
     // Testing
     testImplementation(libs.junit)
@@ -102,6 +100,6 @@ dependencies {
     debugImplementation(libs.androidx.ui.test.manifest)
     testImplementation(libs.androidx.core.testing)
 
-    //Mock
+    // Mock
     testImplementation(libs.mockk)
 }

@@ -2,7 +2,7 @@ package com.huhx0015.rickandmortyroster
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.huhx0015.rickandmortyroster.api.Huhx0015Api
+import com.huhx0015.rickandmortyroster.api.RickAndMortyApi
 import com.huhx0015.rickandmortyroster.api.toCGCharacterList
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
@@ -15,7 +15,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class RMViewModel @Inject constructor(
-    val api: Huhx0015Api
+    val api: RickAndMortyApi
 ) : ViewModel() {
 
     private val _state: MutableStateFlow<RMState> = MutableStateFlow(RMState())
