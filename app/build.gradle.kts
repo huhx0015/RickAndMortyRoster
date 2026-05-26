@@ -17,7 +17,6 @@ android {
         targetSdk = 37
         versionCode = 1
         versionName = "1.0"
-
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 
@@ -49,7 +48,7 @@ kapt {
 
 dependencies {
 
-    // Android Framework
+    // ANDROID FRAMEWORK:
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
     implementation(libs.androidx.activity.compose)
@@ -62,23 +61,23 @@ dependencies {
     implementation(libs.androidx.fragment.compose)
     implementation(libs.androidx.navigation.compose)
 
-    // Android Lifecycle
+    // ANDROID LIFECYCLE:
     implementation(libs.androidx.lifecycle.viewmodel.ktx)
     implementation(libs.androidx.lifecycle.viewmodel.compose)
     implementation(libs.androidx.lifecycle.livedata.ktx)
     implementation(libs.kotlinx.serialization.json)
     implementation(libs.retrofit2.kotlinx.serialization.converter)
 
-    // Kotlin Coroutines
+    // KOTLIN COROUTINES:
     implementation(libs.kotlinx.coroutines.android)
 
-    // Dependency Injection
+    // DEPENDENCY INJECTION:
     implementation(libs.hilt.android)
     kapt(libs.hilt.compiler)
     implementation(libs.androidx.hilt.navigation.fragment)
     implementation(libs.hilt.navigation.compose)
 
-    // Network
+    // NETWORK:
     implementation(libs.retrofit)
     implementation(libs.moshi)
     implementation(libs.okhttp)
@@ -86,11 +85,11 @@ dependencies {
     implementation(libs.okhttp.http.logging.interceptor)
     implementation(libs.retrofit.converter.moshi)
 
-    // Images
+    // IMAGE:
     implementation(libs.coil.compose)
     implementation(libs.coil.network.okhttp)
 
-    // Testing
+    // TESTING:
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
@@ -100,6 +99,6 @@ dependencies {
     debugImplementation(libs.androidx.ui.test.manifest)
     testImplementation(libs.androidx.core.testing)
 
-    // Mock
+    // MOCK:
     testImplementation(libs.mockk)
 }

@@ -23,7 +23,7 @@ import com.huhx0015.rickandmortyroster.data.RMCharacter
 import kotlin.random.Random
 
 @Composable
-fun CharacterScreen(
+fun CharacterListScreen(
     state: RMState,
     modifier: Modifier = Modifier
 ) {
@@ -53,11 +53,13 @@ private fun CharacterRow(
               .data(character.image)
               .crossfade(true)
               .build(),
-          contentDescription = "",
+          contentDescription = String(),
           contentScale = ContentScale.Crop,
           modifier = Modifier.clip(CircleShape),
       )
-      Column() {
+      Column(
+          modifier = modifier
+      ) {
           Text(text = character.name)
           Text(text = character.status)
           Text(text = character.species)

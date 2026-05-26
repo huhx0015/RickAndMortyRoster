@@ -27,37 +27,7 @@ class RMViewModel @Inject constructor(
 
     fun initData() {
         viewModelScope.launch(Dispatchers.IO) {
-            // MOCK DATA:
-//            val characterList = listOf(
-//                CGCharacter(
-//                    id = Random.nextInt(),
-//                    name = "Rick",
-//                    species = "Human",
-//                    gender = "Male",
-//                    status = "Blah",
-//                    image = "https://rickandmortyapi.com/api/character/avatar/2.jpeg"
-//                ),
-//                CGCharacter(
-//                    id = Random.nextInt(),
-//                    name = "Morty",
-//                    species = "Human",
-//                    gender = "Male",
-//                    status = "Blah",
-//                    image = "https://rickandmortyapi.com/api/character/avatar/2.jpeg"
-//                ),
-//                CGCharacter(
-//                    id = Random.nextInt(),
-//                    name = "Rick",
-//                    species = "Human",
-//                    gender = "Male",
-//                    status = "Blah",
-//                    image = "https://rickandmortyapi.com/api/character/avatar/2.jpeg"
-//                )
-//            )
-
             val characterList = api.getCharacters().toCGCharacterList()
-
-
             _state.update { state ->
                 state.copy(
                     characterList = characterList

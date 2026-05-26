@@ -16,7 +16,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.huhx0015.rickandmortyroster.ui.screens.CharacterScreen
+import com.huhx0015.rickandmortyroster.ui.screens.CharacterListScreen
 import com.huhx0015.rickandmortyroster.ui.theme.AndroidInterviewTheme
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.serialization.Serializable
@@ -31,7 +31,7 @@ class MainActivity : ComponentActivity() {
             AndroidInterviewTheme {
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
                     Box(modifier = Modifier.padding(innerPadding)) {
-                        CGAppNavHost(navController = rememberNavController())
+                        RMAppNavHost(navController = rememberNavController())
                     }
                 }
             }
@@ -41,7 +41,7 @@ class MainActivity : ComponentActivity() {
 
 
 @Composable
-fun CGAppNavHost(
+fun RMAppNavHost(
     modifier: Modifier = Modifier,
     navController: NavHostController,
     startDestination: String = NavigationItem.Characters.route,
@@ -54,22 +54,24 @@ fun CGAppNavHost(
         navController = navController,
         startDestination = startDestination
     ) {
-       // Add screen paths here
         composable(NavigationItem.Characters.route) {
-            CharacterScreen(state = state.value)
+            CharacterListScreen(state = state.value)
+        }
+        composable(NavigationItem.CharacterDetail.route) {
+
         }
     }
 }
 
 enum class Screen {
-    Characters,
+    CharacterList,
     CharacterDetail,
 }
 
 @Serializable
 sealed class NavigationItem(val route: String) {
     @Serializable
-    data object Characters : NavigationItem(Screen.Characters.name)
+    data object Characters : NavigationItem(Screen.CharacterList.name)
     @Serializable
     data object CharacterDetail : NavigationItem(Screen.CharacterDetail.name)
 }

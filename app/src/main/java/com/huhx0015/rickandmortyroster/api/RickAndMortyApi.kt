@@ -9,5 +9,5 @@ import retrofit2.http.GET
 
 interface RickAndMortyApi {
     @GET("api/character")
-    suspend fun getCharacters(): CharacterResponse
+    suspend fun getCharacters(): CharacterListResponse
 }
