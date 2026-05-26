@@ -1,5 +1,6 @@
-package com.huhx0015.rickandmortyroster.api
+package com.huhx0015.rickandmortyroster.di
 
+import com.huhx0015.rickandmortyroster.api.RickAndMortyApi
 import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
 import dagger.Module
 import dagger.Provides

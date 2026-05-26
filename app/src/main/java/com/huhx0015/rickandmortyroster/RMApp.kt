@@ -4,8 +4,4 @@ import android.app.Application
 import dagger.hilt.android.HiltAndroidApp
 
 @HiltAndroidApp
-class RMApp: Application() {
-    override fun onCreate() {
-        super.onCreate()
-    }
-}
+class RMApp: Application()
