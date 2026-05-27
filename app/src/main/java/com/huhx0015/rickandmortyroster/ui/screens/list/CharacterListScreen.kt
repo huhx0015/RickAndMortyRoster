@@ -35,7 +35,7 @@ import coil3.request.ImageRequest
 import coil3.request.crossfade
 import coil3.request.placeholder
 import com.huhx0015.rickandmortyroster.R
-import com.huhx0015.rickandmortyroster.data.RMCharacter
+import com.huhx0015.rickandmortyroster.model.RMCharacter
 import kotlin.random.Random
 
 @Composable

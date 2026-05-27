@@ -2,8 +2,7 @@ package com.huhx0015.rickandmortyroster.ui.screens.list
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.huhx0015.rickandmortyroster.api.RickAndMortyApi
-import com.huhx0015.rickandmortyroster.api.toCGCharacterList
+import com.huhx0015.rickandmortyroster.data.CharacterListRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -15,7 +14,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class CharacterListViewModel @Inject constructor(
-    val api: RickAndMortyApi
+    private val repository: CharacterListRepository
 ) : ViewModel() {
 
     private val _state: MutableStateFlow<CharacterListState> = MutableStateFlow(
@@ -28,15 +27,26 @@ class CharacterListViewModel @Inject constructor(
     }
 
     fun initData() {
-        _state.update { it.copy(isLoading = true) }
+        _state.update { it.copy(isLoading = true, isError = false) }
 
         viewModelScope.launch(Dispatchers.IO) {
-            val characterList = api.getCharacters().toCGCharacterList()
-            _state.update { state ->
-                state.copy(
-                    characterList = characterList,
-                    isLoading = false
-                )
+            runCatching {
+                repository.getCharacters()
+            }.onSuccess { characterList ->
+                _state.update { state ->
+                    state.copy(
+                        characterList = characterList,
+                        isLoading = false,
+                        isError = false
+                    )
+                }
+            }.onFailure {
+                _state.update { state ->
+                    state.copy(
+                        isLoading = false,
+                        isError = true
+                    )
+                }
             }
         }
     }

@@ -1,4 +1,4 @@
-package com.huhx0015.rickandmortyroster.data
+package com.huhx0015.rickandmortyroster.model
 
 data class RMCharacter(
     val id: Int,

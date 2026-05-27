@@ -1,6 +1,6 @@
 package com.huhx0015.rickandmortyroster.api
 
-import com.huhx0015.rickandmortyroster.data.RMCharacter
+import com.huhx0015.rickandmortyroster.model.RMCharacter
 import kotlinx.serialization.Serializable
 
 @Serializable
@@ -18,7 +18,7 @@ data class Result(
     val image: String
 )
 
-fun CharacterListResponse.toCGCharacterList(): List<RMCharacter> {
+fun CharacterListResponse.toRMCharacterList(): List<RMCharacter> {
     val characterList: MutableList<RMCharacter> = mutableListOf()
     this.results.forEach {
         characterList.add(
