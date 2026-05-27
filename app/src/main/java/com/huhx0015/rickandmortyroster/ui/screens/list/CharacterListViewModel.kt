@@ -18,7 +18,9 @@ class CharacterListViewModel @Inject constructor(
     val api: RickAndMortyApi
 ) : ViewModel() {
 
-    private val _state: MutableStateFlow<CharacterListState> = MutableStateFlow(CharacterListState())
+    private val _state: MutableStateFlow<CharacterListState> = MutableStateFlow(
+        CharacterListState()
+    )
     val state: StateFlow<CharacterListState> = _state.asStateFlow()
 
     init {
