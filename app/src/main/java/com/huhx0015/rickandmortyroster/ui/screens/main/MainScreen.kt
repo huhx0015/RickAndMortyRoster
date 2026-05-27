@@ -56,7 +56,14 @@ fun MainScreen(
       startDestination = startDestination
     ) {
       composable(NavigationItem.Characters.route) {
-        CharacterListScreen(state = state.value)
+        CharacterListScreen(
+          state = state.value,
+          rowClickAction = {
+            navController.navigate(
+              route = NavigationItem.CharacterDetail.route
+            )
+          }
+        )
       }
       composable(NavigationItem.CharacterDetail.route) {
         CharacterDetailScreen(state = state.value)

@@ -39,6 +39,7 @@ import kotlin.random.Random
 fun CharacterListScreen(
     modifier: Modifier = Modifier,
     state: CharacterListState,
+    rowClickAction: () -> Unit
 ) {
     LazyColumn(
         modifier = modifier.fillMaxSize(),
@@ -49,7 +50,7 @@ fun CharacterListScreen(
         ) { character ->
             CharacterListRow(
                 character = character,
-                rowClickAction = {},
+                rowClickAction = rowClickAction
             )
         }
     }
