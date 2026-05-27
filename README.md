@@ -98,8 +98,6 @@ Or simply open the project in Android Studio and run the `app` configuration.
 ## License
 
 ```
-Copyright 2025 Michael Huh
-
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
 You may obtain a copy of the License at
