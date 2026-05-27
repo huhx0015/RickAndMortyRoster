@@ -20,20 +20,27 @@ The app follows an MVVM (Model-View-ViewModel) architecture with unidirectional 
 
 ```
 app/src/main/java/com/huhx0015/rickandmortyroster/
-├── MainActivity.kt              # Single-activity host + NavHost wiring
-├── RMApp.kt                     # Hilt @HiltAndroidApp Application class
-├── api/                         # Retrofit service + network response models
-│   ├── RickAndMortyApi.kt
-│   └── CharacterListResponse.kt
-├── data/                        # Domain models
-│   └── RMCharacter.kt
-├── di/                          # Hilt modules
-│   └── NetworkModule.kt
+├── MainActivity.kt                       # MainActivity + RMAppNavHost + NavigationItem
+├── RMApp.kt                              # @HiltAndroidApp Application class
+├── api/
+│   ├── RickAndMortyApi.kt                # Retrofit service interface
+│   └── CharacterListResponse.kt          # DTOs + toCGCharacterList() mapper
+├── data/
+│   └── RMCharacter.kt                    # Domain model
+├── di/
+│   └── NetworkModule.kt                  # Hilt module providing Retrofit + API
 └── ui/
     ├── screens/
-    │   ├── list/                # Character list screen + ViewModel + state
-    │   └── detail/              # Character detail screen
-    └── theme/                   # Compose Material3 theme, colors, typography
+    │   ├── list/
+    │   │   ├── CharacterListScreen.kt    # @Composable list UI
+    │   │   ├── CharacterListViewModel.kt # @HiltViewModel exposing StateFlow
+    │   │   └── CharacterListState.kt     # UI state data class
+    │   └── detail/
+    │       └── CharacterDetailScreen.kt  # @Composable detail UI
+    └── theme/
+        ├── Color.kt                      # Material3 color palette
+        ├── Theme.kt                      # AndroidInterviewTheme wrapper
+        └── Type.kt                       # Typography definitions
 ```
 
 ### Tech Stack & Dependencies
