@@ -28,11 +28,14 @@ class CharacterListViewModel @Inject constructor(
     }
 
     fun initData() {
+        _state.update { it.copy(isLoading = true) }
+
         viewModelScope.launch(Dispatchers.IO) {
             val characterList = api.getCharacters().toCGCharacterList()
             _state.update { state ->
                 state.copy(
-                    characterList = characterList
+                    characterList = characterList,
+                    isLoading = false
                 )
             }
         }

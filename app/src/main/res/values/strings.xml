@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">Rick and Morty Roster</string>
+    <string name="empty_character_message">No characters found</string>
+    <string name="error_message">Failed to load characters</string>
 </resources>

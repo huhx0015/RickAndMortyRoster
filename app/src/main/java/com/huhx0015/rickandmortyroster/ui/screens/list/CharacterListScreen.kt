@@ -1,6 +1,7 @@
 package com.huhx0015.rickandmortyroster.ui.screens.list
 
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
@@ -13,6 +14,7 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardColors
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -22,6 +24,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalLocale
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
@@ -41,17 +44,26 @@ fun CharacterListScreen(
     state: CharacterListState,
     rowClickAction: () -> Unit
 ) {
-    LazyColumn(
-        modifier = modifier.fillMaxSize(),
-    ) {
-        items(
-            items = state.characterList,
-            key = { it.id },
-        ) { character ->
-            CharacterListRow(
-                character = character,
-                rowClickAction = rowClickAction
-            )
+    when {
+        state.isLoading -> CharacterListLoading(modifier = modifier)
+        state.characterList.isEmpty() ->
+            CharacterListEmptyError(message = stringResource(R.string.empty_character_message))
+        state.isError ->
+            CharacterListEmptyError(message = stringResource(R.string.error_message))
+        else -> {
+            LazyColumn(
+                modifier = modifier.fillMaxSize(),
+            ) {
+                items(
+                    items = state.characterList,
+                    key = { it.id },
+                ) { character ->
+                    CharacterListRow(
+                        character = character,
+                        rowClickAction = rowClickAction
+                    )
+                }
+            }
         }
     }
 }
@@ -129,6 +141,34 @@ private fun CharacterListRow(
     }
 }
 
+@Composable
+private fun CharacterListLoading(modifier: Modifier = Modifier) {
+    Box(
+        modifier = modifier.fillMaxSize(),
+        contentAlignment = Alignment.Center
+    ) {
+        CircularProgressIndicator()
+    }
+}
+
+@Composable
+private fun CharacterListEmptyError(
+    modifier: Modifier = Modifier,
+    message: String
+) {
+    Box(
+        modifier = modifier.fillMaxSize(),
+        contentAlignment = Alignment.Center
+    ) {
+        Text(
+            text = message,
+            color = Color.Black,
+            fontSize = 14.sp,
+            fontWeight = FontWeight.Normal
+        )
+    }
+}
+
 @Preview
 @Composable
 private fun CharacterListRowPreview() {
@@ -142,5 +182,22 @@ private fun CharacterListRowPreview() {
             image = ""
         ),
         rowClickAction = {}
+    )
+}
+
+@Preview
+@Composable
+private fun CharacterListLoadingPreview() {
+    CharacterListLoading()
+}
+
+@Preview
+@Composable
+private fun CharacterListEmptyErrorPreview() {
+    CharacterListEmptyError(
+        message = stringResource(R.string.empty_character_message)
+    )
+    CharacterListEmptyError(
+        message = stringResource(R.string.error_message)
     )
 }
