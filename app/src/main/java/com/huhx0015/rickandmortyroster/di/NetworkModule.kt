@@ -20,7 +20,9 @@ object NetworkModule {
     fun provideRetrofit(): Retrofit {
         val networkJson = Json { ignoreUnknownKeys = true }
         return Retrofit.Builder().baseUrl(BASE_URL)
-            .addConverterFactory(networkJson.asConverterFactory("application/json".toMediaType()))
+            .addConverterFactory(networkJson.asConverterFactory(
+                "application/json".toMediaType())
+            )
             .build()
     }
 
