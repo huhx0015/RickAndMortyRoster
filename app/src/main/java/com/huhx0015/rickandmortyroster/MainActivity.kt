@@ -4,10 +4,6 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
@@ -19,7 +15,7 @@ import androidx.navigation.compose.rememberNavController
 import com.huhx0015.rickandmortyroster.ui.screens.detail.CharacterDetailScreen
 import com.huhx0015.rickandmortyroster.ui.screens.list.CharacterListScreen
 import com.huhx0015.rickandmortyroster.ui.screens.list.CharacterListViewModel
-import com.huhx0015.rickandmortyroster.ui.theme.AndroidInterviewTheme
+import com.huhx0015.rickandmortyroster.ui.theme.RickMortyRosterTheme
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.serialization.Serializable
 
@@ -30,12 +26,8 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContent {
-            AndroidInterviewTheme {
-                Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    Box(modifier = Modifier.padding(innerPadding)) {
-                        RMAppNavHost(navController = rememberNavController())
-                    }
-                }
+            RickMortyRosterTheme {
+                RMAppNavHost(navController = rememberNavController())
             }
         }
     }

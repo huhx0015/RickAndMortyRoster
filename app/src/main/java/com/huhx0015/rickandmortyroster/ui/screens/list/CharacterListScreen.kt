@@ -1,5 +1,6 @@
 package com.huhx0015.rickandmortyroster.ui.screens.list
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
@@ -12,7 +13,12 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardColors
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBar
+import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -21,6 +27,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalLocale
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
@@ -34,27 +41,52 @@ import com.huhx0015.rickandmortyroster.R
 import com.huhx0015.rickandmortyroster.data.RMCharacter
 import kotlin.random.Random
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun CharacterListScreen(
+    modifier: Modifier = Modifier,
     state: CharacterListState,
-    modifier: Modifier = Modifier
 ) {
-    LazyColumn(
-        modifier = modifier.fillMaxSize()
-    ) {
-        items(
-            items = state.characterList,
-            key = { it.id }
-        ) { character ->
-            CharacterListRow(character = character)
+    Scaffold(
+        modifier = modifier.fillMaxSize(),
+        topBar = {
+            TopAppBar(
+                title = {
+                    Text(
+                        text = stringResource(R.string.app_name),
+                        fontWeight = FontWeight.SemiBold,
+                    )
+                },
+                colors = TopAppBarDefaults.topAppBarColors(
+                    containerColor = MaterialTheme.colorScheme.primaryContainer,
+                    titleContentColor = MaterialTheme.colorScheme.onPrimaryContainer,
+                ),
+            )
+        },
+    ) { innerPadding ->
+        LazyColumn(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(innerPadding),
+        ) {
+            items(
+                items = state.characterList,
+                key = { it.id },
+            ) { character ->
+                CharacterListRow(
+                    character = character,
+                    rowClickAction = {},
+                )
+            }
         }
     }
 }
 
 @Composable
 private fun CharacterListRow(
+    modifier: Modifier = Modifier,
     character: RMCharacter,
-    modifier: Modifier = Modifier
+    rowClickAction: () -> Unit
 ) {
     Card(
         modifier = modifier
@@ -72,7 +104,8 @@ private fun CharacterListRow(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(8.dp)
-                .wrapContentHeight(),
+                .wrapContentHeight()
+                .clickable { rowClickAction.invoke() },
             verticalAlignment = Alignment.CenterVertically
         ) {
             AsyncImage(
@@ -133,6 +166,7 @@ private fun CharacterListRowPreview() {
             gender = "Male",
             status = "Blah",
             image = ""
-        )
+        ),
+        rowClickAction = {}
     )
 }
