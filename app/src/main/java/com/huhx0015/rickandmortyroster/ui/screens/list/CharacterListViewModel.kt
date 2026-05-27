@@ -1,4 +1,4 @@
-package com.huhx0015.rickandmortyroster
+package com.huhx0015.rickandmortyroster.ui.screens.list
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -14,12 +14,12 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class RMViewModel @Inject constructor(
+class CharacterListViewModel @Inject constructor(
     val api: RickAndMortyApi
 ) : ViewModel() {
 
-    private val _state: MutableStateFlow<RMState> = MutableStateFlow(RMState())
-    val state: StateFlow<RMState> = _state.asStateFlow()
+    private val _state: MutableStateFlow<CharacterListState> = MutableStateFlow(CharacterListState())
+    val state: StateFlow<CharacterListState> = _state.asStateFlow()
 
     init {
         initData()
@@ -36,4 +36,3 @@ class RMViewModel @Inject constructor(
         }
     }
 }
-

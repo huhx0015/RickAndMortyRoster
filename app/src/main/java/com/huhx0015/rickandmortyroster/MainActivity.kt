@@ -16,7 +16,9 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.huhx0015.rickandmortyroster.ui.screens.CharacterListScreen
+import com.huhx0015.rickandmortyroster.ui.screens.detail.CharacterDetailScreen
+import com.huhx0015.rickandmortyroster.ui.screens.list.CharacterListScreen
+import com.huhx0015.rickandmortyroster.ui.screens.list.CharacterListViewModel
 import com.huhx0015.rickandmortyroster.ui.theme.AndroidInterviewTheme
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.serialization.Serializable
@@ -46,7 +48,7 @@ fun RMAppNavHost(
     navController: NavHostController,
     startDestination: String = NavigationItem.Characters.route,
 ) {
-    val viewModel: RMViewModel = viewModel()
+    val viewModel: CharacterListViewModel = viewModel()
     val state = viewModel.state.collectAsStateWithLifecycle()
 
     NavHost(
@@ -58,7 +60,7 @@ fun RMAppNavHost(
             CharacterListScreen(state = state.value)
         }
         composable(NavigationItem.CharacterDetail.route) {
-
+            CharacterDetailScreen(state = state.value)
         }
     }
 }
