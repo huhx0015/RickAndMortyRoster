@@ -12,8 +12,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
-import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -21,7 +19,6 @@ import com.huhx0015.rickandmortyroster.R
 import com.huhx0015.rickandmortyroster.navigation.NavigationItem
 import com.huhx0015.rickandmortyroster.ui.screens.detail.CharacterDetailScreen
 import com.huhx0015.rickandmortyroster.ui.screens.list.CharacterListScreen
-import com.huhx0015.rickandmortyroster.ui.screens.list.CharacterListViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -30,9 +27,6 @@ fun MainScreen(
   navController: NavHostController,
   startDestination: String = NavigationItem.Characters.route,
 ) {
-  val viewModel: CharacterListViewModel = viewModel()
-  val state = viewModel.state.collectAsStateWithLifecycle()
-
   Scaffold(
     modifier = modifier.fillMaxSize(),
     topBar = {
@@ -57,7 +51,6 @@ fun MainScreen(
     ) {
       composable(NavigationItem.Characters.route) {
         CharacterListScreen(
-          state = state.value,
           rowClickAction = {
             navController.navigate(
               route = NavigationItem.CharacterDetail.route
@@ -66,7 +59,7 @@ fun MainScreen(
         )
       }
       composable(NavigationItem.CharacterDetail.route) {
-        CharacterDetailScreen(state = state.value)
+        CharacterDetailScreen()
       }
     }
   }

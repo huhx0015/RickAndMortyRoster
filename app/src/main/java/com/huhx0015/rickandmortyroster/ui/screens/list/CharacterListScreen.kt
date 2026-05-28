@@ -30,6 +30,8 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import coil3.compose.AsyncImage
 import coil3.request.ImageRequest
 import coil3.request.crossfade
@@ -41,21 +43,23 @@ import kotlin.random.Random
 @Composable
 fun CharacterListScreen(
     modifier: Modifier = Modifier,
-    state: CharacterListState,
     rowClickAction: () -> Unit
 ) {
+    val viewModel: CharacterListViewModel = hiltViewModel()
+    val state = viewModel.state.collectAsStateWithLifecycle()
+
     when {
-        state.isLoading -> CharacterListLoading(modifier = modifier)
-        state.characterList.isEmpty() ->
+        state.value.isLoading -> CharacterListLoading(modifier = modifier)
+        state.value.characterList.isEmpty() ->
             CharacterListEmptyError(message = stringResource(R.string.empty_character_message))
-        state.isError ->
+        state.value.isError ->
             CharacterListEmptyError(message = stringResource(R.string.error_message))
         else -> {
             LazyColumn(
                 modifier = modifier.fillMaxSize(),
             ) {
                 items(
-                    items = state.characterList,
+                    items = state.value.characterList,
                     key = { it.id },
                 ) { character ->
                     CharacterListRow(

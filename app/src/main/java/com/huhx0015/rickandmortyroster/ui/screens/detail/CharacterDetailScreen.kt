@@ -6,7 +6,6 @@ import com.huhx0015.rickandmortyroster.ui.screens.list.CharacterListState
 
 @Composable
 fun CharacterDetailScreen(
-  state: CharacterListState,
   modifier: Modifier = Modifier
 ) {
 
