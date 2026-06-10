@@ -7,7 +7,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 
-class CharacterRepository(
+class RickAndMortyRepository(
     private val api: RickAndMortyApi
 ) {
     private val _characterListStateFlow: MutableStateFlow<List<RMCharacter>> =
@@ -18,6 +18,12 @@ class CharacterRepository(
         val resultList = api.getCharacters().toRMCharacterList()
         updateCharacterList(list = resultList)
         return resultList
+    }
+
+    fun getCharacter(id: Int): RMCharacter? {
+        return characterListStateFlow.value.firstOrNull { character ->
+            character.id == id
+        }
     }
 
     fun getCharacterList(): List<RMCharacter> = _characterListStateFlow.value

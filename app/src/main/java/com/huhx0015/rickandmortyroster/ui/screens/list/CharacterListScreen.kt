@@ -114,6 +114,7 @@ private fun CharacterListRow(
             )
             Column(
                 modifier = modifier
+                    .padding(horizontal = 8.dp)
             ) {
                 Text(
                     text = character.name,

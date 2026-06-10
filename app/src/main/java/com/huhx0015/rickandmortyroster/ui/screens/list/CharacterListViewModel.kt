@@ -2,7 +2,7 @@ package com.huhx0015.rickandmortyroster.ui.screens.list
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.huhx0015.rickandmortyroster.data.CharacterRepository
+import com.huhx0015.rickandmortyroster.data.RickAndMortyRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -14,7 +14,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class CharacterListViewModel @Inject constructor(
-    private val repository: CharacterRepository
+    private val repository: RickAndMortyRepository
 ) : ViewModel() {
 
     private val _state: MutableStateFlow<CharacterListState> = MutableStateFlow(
