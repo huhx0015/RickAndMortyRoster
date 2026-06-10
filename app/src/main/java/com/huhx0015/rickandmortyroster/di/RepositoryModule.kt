@@ -1,7 +1,7 @@
 package com.huhx0015.rickandmortyroster.di
 
 import com.huhx0015.rickandmortyroster.api.RickAndMortyApi
-import com.huhx0015.rickandmortyroster.data.CharacterListRepository
+import com.huhx0015.rickandmortyroster.data.CharacterRepository
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -12,7 +12,7 @@ import dagger.hilt.components.SingletonComponent
 object RepositoryModule {
 
     @Provides
-    fun provideCharacterListRepository(api: RickAndMortyApi): CharacterListRepository {
-        return CharacterListRepository(api)
+    fun provideCharacterListRepository(api: RickAndMortyApi): CharacterRepository {
+        return CharacterRepository(api)
     }
 }
