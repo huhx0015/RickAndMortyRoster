@@ -43,7 +43,7 @@ import kotlin.random.Random
 @Composable
 fun CharacterListScreen(
     modifier: Modifier = Modifier,
-    rowClickAction: () -> Unit
+    rowClickAction: (characterId: Int) -> Unit
 ) {
     val viewModel: CharacterListViewModel = hiltViewModel()
     val state = viewModel.state.collectAsStateWithLifecycle()
@@ -76,7 +76,7 @@ fun CharacterListScreen(
 private fun CharacterListRow(
     modifier: Modifier = Modifier,
     character: RMCharacter,
-    rowClickAction: () -> Unit
+    rowClickAction: (characterId: Int) -> Unit
 ) {
     Card(
         modifier = modifier
@@ -95,7 +95,7 @@ private fun CharacterListRow(
                 .fillMaxWidth()
                 .padding(8.dp)
                 .wrapContentHeight()
-                .clickable { rowClickAction.invoke() },
+                .clickable { rowClickAction.invoke(character.id) },
             verticalAlignment = Alignment.CenterVertically
         ) {
             AsyncImage(

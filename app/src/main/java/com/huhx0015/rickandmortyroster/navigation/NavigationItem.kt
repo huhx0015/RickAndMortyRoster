@@ -2,10 +2,10 @@ package com.huhx0015.rickandmortyroster.navigation
 
 import kotlinx.serialization.Serializable
 
-@Serializable
-sealed class NavigationItem(val route: String) {
+sealed interface NavigationItem {
   @Serializable
-  data object Characters : NavigationItem(Screen.CharacterList.name)
+  data object Characters : NavigationItem
+
   @Serializable
-  data object CharacterDetail : NavigationItem(Screen.CharacterDetail.name)
+  data class CharacterDetail(val characterId: Int) : NavigationItem
 }

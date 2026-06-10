@@ -15,6 +15,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import androidx.navigation.toRoute
 import com.huhx0015.rickandmortyroster.R
 import com.huhx0015.rickandmortyroster.navigation.NavigationItem
 import com.huhx0015.rickandmortyroster.ui.screens.detail.CharacterDetailScreen
@@ -25,7 +26,7 @@ import com.huhx0015.rickandmortyroster.ui.screens.list.CharacterListScreen
 fun MainScreen(
   modifier: Modifier = Modifier,
   navController: NavHostController,
-  startDestination: String = NavigationItem.Characters.route,
+  startDestination: NavigationItem = NavigationItem.Characters,
 ) {
   Scaffold(
     modifier = modifier.fillMaxSize(),
@@ -49,17 +50,18 @@ fun MainScreen(
       navController = navController,
       startDestination = startDestination
     ) {
-      composable(NavigationItem.Characters.route) {
+      composable<NavigationItem.Characters> {
         CharacterListScreen(
-          rowClickAction = {
+          rowClickAction = { characterId ->
             navController.navigate(
-              route = NavigationItem.CharacterDetail.route
+              route = NavigationItem.CharacterDetail(characterId = characterId)
             )
           }
         )
       }
-      composable(NavigationItem.CharacterDetail.route) {
-        CharacterDetailScreen()
+      composable<NavigationItem.CharacterDetail> { backStackEntry ->
+        val characterDetail: NavigationItem.CharacterDetail = backStackEntry.toRoute()
+        CharacterDetailScreen(characterId = characterDetail.characterId)
       }
     }
   }
