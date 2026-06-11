@@ -8,6 +8,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -23,10 +24,21 @@ class CharacterListViewModel @Inject constructor(
     val state: StateFlow<CharacterListState> = _state.asStateFlow()
 
     init {
+        initObserver()
         initData()
     }
 
-    fun initData() {
+    private fun initObserver() {
+        viewModelScope.launch {
+            repository.characterListStateFlow.collectLatest { characterList ->
+                _state.update { state ->
+                    state.copy(characterList = characterList)
+                }
+            }
+        }
+    }
+
+    private fun initData() {
         _state.update { it.copy(isLoading = true, isError = false) }
 
         if (repository.isCharacterListEmpty()) {
@@ -46,10 +58,9 @@ class CharacterListViewModel @Inject constructor(
         viewModelScope.launch(Dispatchers.IO) {
             runCatching {
                 repository.loadCharacters()
-            }.onSuccess { characterList ->
+            }.onSuccess {
                 _state.update { state ->
                     state.copy(
-                        characterList = characterList,
                         isLoading = false,
                         isError = false
                     )
