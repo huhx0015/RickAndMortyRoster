@@ -123,7 +123,6 @@ private fun CharacterDetailInformation(
       fontStyle = FontStyle.Italic
     )
   }
-
 }
 
 @Preview

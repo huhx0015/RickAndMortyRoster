@@ -22,10 +22,6 @@ class CharacterDetailViewModel @Inject constructor(
     )
     val state: StateFlow<CharacterDetailState> = _state.asStateFlow()
 
-    init {
-
-    }
-
     fun loadCharacterData(id: Int) {
         _state.update { it.copy(isLoading = true, isError = false) }
 
