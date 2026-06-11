@@ -6,13 +6,15 @@ import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
+import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
 object RepositoryModule {
 
     @Provides
-    fun provideCharacterListRepository(api: RickAndMortyApi): RickAndMortyRepository {
+    @Singleton
+    fun provideRickAndMortyRepository(api: RickAndMortyApi): RickAndMortyRepository {
         return RickAndMortyRepository(api)
     }
 }
