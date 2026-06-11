@@ -1,6 +1,7 @@
 package com.huhx0015.rickandmortyroster.api
 
 import retrofit2.http.GET
+import retrofit2.http.Query
 
 /**
  * Rick and Morty API
@@ -9,5 +10,5 @@ import retrofit2.http.GET
 
 interface RickAndMortyApi {
     @GET("api/character")
-    suspend fun getCharacters(): CharacterListResponse
+    suspend fun getCharacters(@Query("page") page: Int = 1): CharacterListResponse
 }

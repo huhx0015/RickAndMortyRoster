@@ -23,6 +23,10 @@ class CharacterListViewModel @Inject constructor(
     )
     val state: StateFlow<CharacterListState> = _state.asStateFlow()
 
+    companion object {
+        private const val VAL_INITIAL_PAGE = 1
+    }
+
     init {
         initObserver()
         initData()
@@ -42,7 +46,7 @@ class CharacterListViewModel @Inject constructor(
         _state.update { it.copy(isLoading = true, isError = false) }
 
         if (repository.isCharacterListEmpty()) {
-            loadData()
+            loadData(page = VAL_INITIAL_PAGE)
         } else {
             _state.update { state ->
                 state.copy(
@@ -54,14 +58,15 @@ class CharacterListViewModel @Inject constructor(
         }
     }
 
-    private fun loadData() {
+    private fun loadData(page: Int) {
         viewModelScope.launch(Dispatchers.IO) {
             runCatching {
-                repository.loadCharacters()
+                repository.loadCharacters(page = page)
             }.onSuccess {
                 _state.update { state ->
                     state.copy(
                         isLoading = false,
+                        isLoadingMore = false,
                         isError = false
                     )
                 }
@@ -69,10 +74,24 @@ class CharacterListViewModel @Inject constructor(
                 _state.update { state ->
                     state.copy(
                         isLoading = false,
+                        isLoadingMore = false,
                         isError = true
                     )
                 }
             }
         }
+    }
+
+    fun loadMoreData() {
+        val nextPage = state.value.currentPage + 1
+
+        _state.update { state ->
+            state.copy(
+                currentPage = nextPage,
+                isLoadingMore = true
+            )
+        }
+
+        loadData(page = nextPage)
     }
 }

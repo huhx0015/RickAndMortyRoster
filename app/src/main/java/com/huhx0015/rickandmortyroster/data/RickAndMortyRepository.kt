@@ -14,9 +14,17 @@ class RickAndMortyRepository(
         MutableStateFlow(emptyList())
     val characterListStateFlow: StateFlow<List<RMCharacter>> = _characterListStateFlow.asStateFlow()
 
-    suspend fun loadCharacters() {
-        val resultList = api.getCharacters().toRMCharacterList()
-        updateCharacterList(list = resultList)
+    suspend fun loadCharacters(page: Int) {
+        val resultList = api.getCharacters(page).toRMCharacterList()
+
+        val currentCharacterList: MutableList<RMCharacter> =
+            characterListStateFlow.value.toMutableList()
+        if (currentCharacterList.isEmpty()) {
+            updateCharacterList(list = resultList)
+        } else {
+            currentCharacterList += resultList
+            updateCharacterList(list = currentCharacterList)
+        }
     }
 
     fun getCharacter(id: Int): RMCharacter? {
