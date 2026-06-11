@@ -4,17 +4,18 @@
 
 RickAndMortyRoster: A simple Android app utilizing the [Rick and Morty API](https://rickandmortyapi.com/) for displaying roster details from the Rick and Morty show.
 
-The app fetches the character roster from the public Rick and Morty REST API and renders it with Jetpack Compose. The codebase is intentionally lightweight and follows modern Android best practices, making it a useful reference for setting up a Compose + Hilt + Retrofit project.
+The app fetches the character roster from the public Rick and Morty REST API and renders it with Jetpack Compose. Selecting a character opens a detail screen with a larger portrait and additional information. The codebase is intentionally lightweight and follows modern Android best practices, making it a useful reference for setting up a Compose + Hilt + Retrofit project.
 
 ### Architecture
 
-The app follows an MVVM (Model-View-ViewModel) architecture with unidirectional data flow:
+The app follows an MVVM (Model-View-ViewModel) architecture with unidirectional data flow. Data flows in one direction: `RickAndMortyApi` → `RickAndMortyRepository` → `ViewModel` → Compose screen.
 
 - **View** — Jetpack Compose screens (`CharacterListScreen`, `CharacterDetailScreen`) that observe state via `collectAsStateWithLifecycle`. A top-level `MainScreen` hosts the `Scaffold`, `TopAppBar`, and `NavHost`.
-- **ViewModel** — `CharacterListViewModel` exposes an immutable `StateFlow<CharacterListState>` and triggers data loads inside `viewModelScope`.
-- **Data layer** — Retrofit-based `RickAndMortyApi` service backed by domain models (`RMCharacter`) and DTO mappers in the `api` package.
-- **DI** — Hilt provides the `Retrofit` instance and `RickAndMortyApi` through `NetworkModule` (`@InstallIn(SingletonComponent::class)`).
-- **Navigation** — A single-activity setup (`MainActivity` under `ui/activities/`) with a dedicated `navigation/` package that defines route destinations (`Screen` enum) and type-safe `NavigationItem` entries consumed by the `NavHost` inside `MainScreen`.
+- **ViewModel** — `CharacterListViewModel` and `CharacterDetailViewModel` (both `@HiltViewModel`) each expose an immutable `StateFlow` of their screen's state (`CharacterListState` / `CharacterDetailState`, with `isLoading` / `isError` flags) and run loads inside `viewModelScope`.
+- **Repository** — `RickAndMortyRepository` is a `@Singleton` that acts as the single source of truth. It fetches the character list once and caches it in a `StateFlow`. The detail screen reads from this in-memory cache (`getCharacter(id)`) rather than making a second network call.
+- **Data layer** — Retrofit-based `RickAndMortyApi` service. DTOs and the `toRMCharacterList()` mapper live in the `api` package; the `RMCharacter` domain model lives in `model`.
+- **DI** — Hilt provides the `Retrofit` instance and `RickAndMortyApi` via `NetworkModule`, and the repository via `RepositoryModule` (both `@InstallIn(SingletonComponent::class)`).
+- **Navigation** — A single-activity setup (`MainActivity` under `ui/activities/`) with a dedicated `navigation/` package. Type-safe routes are defined by the `@Serializable` sealed interface `NavigationItem` (`Characters`, `CharacterDetail(characterId)`) and consumed by the `NavHost` inside `MainScreen`; the character id is passed to the detail destination and read via `backStackEntry.toRoute()`.
 
 ### Project Structure
 
@@ -23,13 +24,16 @@ app/src/main/java/com/huhx0015/rickandmortyroster/
 ├── RMApp.kt                                  # @HiltAndroidApp Application class
 ├── api/
 │   ├── RickAndMortyApi.kt                    # Retrofit service interface
-│   └── CharacterListResponse.kt              # DTOs + toCGCharacterList() mapper
+│   └── CharacterListResponse.kt              # DTOs + toRMCharacterList() mapper
 ├── data/
+│   └── RickAndMortyRepository.kt             # @Singleton in-memory character cache
+├── model/
 │   └── RMCharacter.kt                        # Domain model
 ├── di/
-│   └── NetworkModule.kt                      # Hilt module providing Retrofit + API
+│   ├── NetworkModule.kt                      # Hilt module providing Retrofit + API
+│   └── RepositoryModule.kt                   # Hilt module providing the repository
 ├── navigation/
-│   ├── Screen.kt                             # Enum of navigation route names
+│   ├── Screen.kt                             # Screen enum
 │   └── NavigationItem.kt                     # @Serializable sealed routes (Characters, CharacterDetail)
 └── ui/
     ├── activities/
@@ -42,7 +46,9 @@ app/src/main/java/com/huhx0015/rickandmortyroster/
     │   │   ├── CharacterListViewModel.kt     # @HiltViewModel exposing StateFlow
     │   │   └── CharacterListState.kt         # UI state data class
     │   └── detail/
-    │       └── CharacterDetailScreen.kt      # @Composable detail UI
+    │       ├── CharacterDetailScreen.kt      # @Composable detail UI
+    │       ├── CharacterDetailViewModel.kt   # @HiltViewModel exposing StateFlow
+    │       └── CharacterDetailState.kt       # UI state data class
     └── theme/
         ├── Color.kt                          # Material3 color palette
         ├── Theme.kt                          # RickMortyRosterTheme wrapper
