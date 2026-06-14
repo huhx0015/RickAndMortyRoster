@@ -1,7 +1,8 @@
 package com.huhx0015.rickandmortyroster.ui.screens.detail
 
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
@@ -45,9 +46,10 @@ fun CharacterDetailScreen(
 
   Column(
     modifier = modifier
-      .fillMaxWidth()
-      .padding( all = 16.dp),
-    horizontalAlignment = Alignment.CenterHorizontally
+      .fillMaxSize()
+      .padding(all = 16.dp),
+    horizontalAlignment = Alignment.CenterHorizontally,
+    verticalArrangement = Arrangement.Center
   ) {
     CharacterDetailPortrait(
       imageUrl = character?.image
